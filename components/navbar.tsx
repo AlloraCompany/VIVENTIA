@@ -36,19 +36,23 @@ export function Navbar() {
     >
       <div className="container mx-auto px-6 lg:px-12">
         <nav className="flex items-center justify-between">
-          {/* Logo with gradient. The SVG has built-in padding and a tagline below
-              the wordmark, so the artwork is offset to optically align VIVENTIA with
-              the nav links and the left content column. */}
+          {/* Logo with gradient. Inside the 1920x574 viewBox the artwork starts at
+              x=107 and the wordmark sits above centre (the tagline takes the lower
+              third), so box-centring leaves VIVENTIA high and indented. The offsets
+              below are percentages of the element, so they hold at any h-* size:
+              5.573% = 107/1920, 14.222% = the wordmark's offset from centre. */}
           <Link href="/" className="relative z-10">
               <img
                 src="/images/logo-escrito-horizontal.svg"
                 alt="Viventia"
-                className="h-10 w-auto -translate-x-[7px] translate-y-[6px]"
+                className="h-12 w-auto -translate-x-[5.573%] translate-y-[14.222%]"
               />
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-8 lg:gap-12">
+          {/* Desktop Navigation. Only from lg: the links, logo and CTA need ~806px,
+              but the container is capped at 768px for the whole md range, so at md
+              the links used to overflow underneath the CTA. */}
+          <ul className="hidden lg:flex items-center gap-8 xl:gap-12">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -66,7 +70,7 @@ export function Navbar() {
             href={whatsappUrl(WHATSAPP_MESSAGES.agendamento)}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center px-6 py-2.5 text-sm tracking-wider uppercase btn-vivere-gradient text-white rounded-full"
+            className="hidden lg:inline-flex items-center px-6 py-2.5 text-sm tracking-wider uppercase btn-vivere-gradient text-white rounded-full"
           >
             Agendar
           </Link>
@@ -74,7 +78,7 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden relative z-10 p-2 text-foreground"
+            className="lg:hidden relative z-10 p-2 text-foreground"
             aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -85,7 +89,7 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "fixed inset-0 bg-background/98 backdrop-blur-lg md:hidden transition-all duration-500",
+          "fixed inset-0 bg-background/98 backdrop-blur-lg lg:hidden transition-all duration-500",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
