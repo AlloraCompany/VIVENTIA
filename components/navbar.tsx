@@ -36,12 +36,14 @@ export function Navbar() {
     >
       <div className="container mx-auto px-6 lg:px-12">
         <nav className="flex items-center justify-between">
-          {/* Logo with gradient */}
+          {/* Logo with gradient. The SVG has built-in padding and a tagline below
+              the wordmark, so the artwork is offset to optically align VIVENTIA with
+              the nav links and the left content column. */}
           <Link href="/" className="relative z-10">
               <img
                 src="/images/logo-escrito-horizontal.svg"
                 alt="Viventia"
-                className="h-10 w-auto"
+                className="h-10 w-auto -translate-x-[7px] translate-y-[6px]"
               />
           </Link>
 
