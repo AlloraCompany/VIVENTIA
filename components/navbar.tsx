@@ -25,6 +25,25 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Com o menu aberto travamos o scroll do documento: o overlay tem rolagem
+  // própria (necessária em telas baixas), e sem o lock os dois competem.
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+
+    const { overflow } = document.body.style
+    document.body.style.overflow = "hidden"
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMobileMenuOpen(false)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = overflow
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [isMobileMenuOpen])
+
   return (
     <header
       className={cn(
@@ -86,23 +105,30 @@ export function Navbar() {
         </nav>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu. Painel de tela cheia com rolagem própria: em telas baixas
+          (celular deitado, ~360px de altura) os links + CTA não cabem centrados
+          e antes vazavam por cima da logo e do botão de fechar, sem como rolar.
+          100dvh acompanha a barra de endereço do Safari/Chrome mobile; o
+          min-h-full interno centraliza quando sobra espaço e cresce quando não. */}
       <div
         className={cn(
-          "fixed inset-0 bg-background/98 backdrop-blur-lg lg:hidden transition-all duration-500",
+          "fixed inset-0 h-[100dvh] overflow-y-auto overscroll-contain bg-background lg:hidden transition-opacity duration-500",
           isMobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         )}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
-          {navLinks.map((link, index) => (
+        {/* py-24 = a altura do header: mantém o bloco centrado na tela e, quando
+            o conteúdo não cabe e o painel rola, o topo nunca encosta na logo.
+            Em telas baixas (celular deitado) o espaçamento encolhe para o CTA
+            caber sem rolagem — a logo e o X ficam em faixas horizontais livres. */}
+        <div className="flex min-h-full flex-col items-center justify-center gap-2 px-6 py-24 [@media(max-height:600px)]:gap-0 [@media(max-height:600px)]:py-16">
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-2xl font-serif tracking-wide text-foreground hover:text-primary transition-colors"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="w-full max-w-xs py-3 text-center text-xl sm:text-2xl font-serif tracking-wide text-balance text-foreground hover:text-primary transition-colors [@media(max-height:600px)]:py-2"
             >
               {link.label}
             </Link>
@@ -112,7 +138,7 @@ export function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="mt-4 px-8 py-3 text-sm tracking-wider uppercase btn-vivere-gradient text-white rounded-full"
+            className="mt-6 inline-flex items-center justify-center px-8 py-3 text-sm tracking-wider uppercase btn-vivere-gradient text-white rounded-full [@media(max-height:600px)]:mt-4"
           >
             Agendar Consulta
           </Link>
