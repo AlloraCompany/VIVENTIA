@@ -16,10 +16,21 @@ const ethos = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://viventiamedical.com'),
   title: 'Viventia | Clínica de Psiquiatria Premium',
   description: 'Viventia - Mais do que tratar sintomas, proporcionar vida plena. Clínica de psiquiatria premium com atendimento humanizado e experiência acolhedora.',
   keywords: ['psiquiatria', 'saúde mental', 'clínica premium', 'bem-estar', 'vida plena', 'tratamento humanizado'],
   generator: 'v0.app',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Viventia',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Recepção da clínica Viventia' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.jpg'],
+  },
   icons: {
     icon: [
       {

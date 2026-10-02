@@ -24,6 +24,20 @@ export const metadata: Metadata = {
     'TDAH',
     'Viventia',
   ],
+  openGraph: {
+    type: 'profile',
+    locale: 'pt_BR',
+    siteName: 'Viventia',
+    url: '/equipe/dra-isadora-valente',
+    title: 'Dra. Isadora Valente | Psiquiatria Humanizada — Viventia',
+    description:
+      'Psiquiatra com atendimento humanizado para ansiedade, depressão, TDAH, TOC e outros transtornos. Consultas presenciais e online.',
+    images: [{ url: '/og-dra-isadora.jpg', width: 1200, height: 630, alt: 'Dra. Isadora Valente, psiquiatra' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-dra-isadora.jpg'],
+  },
 }
 
 export default function DraIsadoraPage() {
